@@ -19,7 +19,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.math.BigInteger;
+import java.io.InputStream;
+import java.util.Base64;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -39,8 +40,6 @@ public class MainActivity extends AppCompatActivity {
             getPermission();
         }
     }
-
-
 
     //Método para gravar o audio
     public void recordPressed(View v){
@@ -122,13 +121,11 @@ public class MainActivity extends AppCompatActivity {
 
         File file = new File(musicDrectory, "recordedFile" + ".mp3");
 
-        System.out.println("Binário gerado:" + getBytes(file));
-
         return file.getPath();
     }
 
     //Método para transformar o arquivo em um array de bytes
-    private static String getBytes(File file) throws FileNotFoundException, IOException {
+    private static String getBytes(File file) throws  IOException {
 
         byte[] buffer = new byte[1024];
 
@@ -146,15 +143,15 @@ public class MainActivity extends AppCompatActivity {
         fis.close();
         baos.close();
 
-        System.out.println("Hexadecimal gerado:" + toHex(baos));
-
-        return baos.toString("UTF-8");
+        //Transforma o byte array gerado em base 64
+        return Base64.getEncoder().encodeToString(baos.toByteArray());
     }
 
-    public static String toHex(ByteArrayOutputStream baos){
+    public void test(View v) throws IOException {
+        String value =  recordedFilePath();
 
-        return String.format("%040x", new BigInteger(1, baos.toByteArray()));
+        String ended = getBytes(new File(value));
+
+        System.out.println(ended);
     }
-
-
 }
