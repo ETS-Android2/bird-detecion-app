@@ -11,15 +11,30 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Writer;
 import java.util.Base64;
 
 
@@ -48,13 +63,13 @@ public class MainActivity extends AppCompatActivity {
 
             mediaRecorder = new MediaRecorder();
             mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
             mediaRecorder.setOutputFile(recordedFilePath());
             mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
             mediaRecorder.prepare();
             mediaRecorder.start();
 
-            Toast.makeText(this, "Gravação iniciada", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Gravação iniciada", Toast.LENGTH_SHORT).show();
 
         } catch (IOException e) {
 
@@ -68,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         mediaRecorder.stop();
         mediaRecorder.release();
         mediaRecorder = null;
-        Toast.makeText(this, "Gravação encerrada", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Gravação encerrada", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -82,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
             mediaPlayer.prepare();
             mediaPlayer.start();
 
-            Toast.makeText(this, "Reproduzindo gravação", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Reproduzindo gravação", Toast.LENGTH_SHORT).show();
 
         } catch (IOException e) {
 
@@ -119,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
 
         File musicDrectory = contextWrapper.getExternalFilesDir(Environment.DIRECTORY_MUSIC);
 
-        File file = new File(musicDrectory, "recordedFile" + ".mp3");
+        File file = new File(musicDrectory, "recordedFile" + ".3gp");
 
         return file.getPath();
     }
@@ -144,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
         baos.close();
 
         //Transforma o byte array gerado em base 64
-        return Base64.getEncoder().encodeToString(baos.toByteArray());
+        return Base64.getMimeEncoder().encodeToString(baos.toByteArray());
     }
 
     public void test(View v) throws IOException {
@@ -152,6 +167,54 @@ public class MainActivity extends AppCompatActivity {
 
         String ended = getBytes(new File(value));
 
-        System.out.println(ended);
+        //Log.v("Base64 gerado:" ,ended);
+
+        try {
+
+            Audio audio = new Audio();
+
+            audio.setAudio(ended);
+            audio.setFormat("3gp");
+
+            JSONObject jsonObj = new JSONObject();
+
+            jsonObj.put("Audio", audio.getAudio());
+            jsonObj.put("Format", audio.getFormat());
+
+            String postUrl = "localhost:5000/detect";
+
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, jsonObj, new Response.Listener<JSONObject>(){
+
+                @Override
+                public void onResponse(JSONObject response){
+
+                    System.out.println(response);
+                }
+            }, new Response.ErrorListener(){
+
+                @Override
+                public void onErrorResponse(VolleyError error){
+
+                    error.printStackTrace();
+                }
+            });
+
+            requestQueue.add(jsonObjectRequest);
+
+
+
+            //Aparentemente tem algum limite de exibição de caracteres
+            //System.out.println(jsonObj);
+            //String total = jsonObj.toString();
+            //Log.v("json gerado:", total);
+
+        }   catch (JSONException je){
+
+            je.printStackTrace();
+
+        }
     }
+
 }
