@@ -203,8 +203,6 @@ public class MainActivity extends AppCompatActivity {
 
             requestQueue.add(jsonObjectRequest);
 
-
-
             //Aparentemente tem algum limite de exibição de caracteres
             //System.out.println(jsonObj);
             //String total = jsonObj.toString();
