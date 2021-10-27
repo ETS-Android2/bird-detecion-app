@@ -26,6 +26,18 @@ def detect():
     #s = request.get_data()
     #bodyJson = request.get_json()
     
+    ## Example of reading from base64
+    # import base64
+    #
+    # data_in_base64 = ''
+    #
+    ## get bytes
+    # decoded_data = base64.b64decode(data)
+    #
+    ## save to file
+    # with open("filename.mp3", 'wb') as pcm:
+    #   pcm.write(decoded_data) 
+
     s = 'AnuBranco'
 
     filename = s+'1.mp3'
