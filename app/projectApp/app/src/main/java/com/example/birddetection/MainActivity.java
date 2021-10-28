@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -36,6 +37,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
 import java.util.Base64;
+import java.util.Timer;
+import java.util.TimerTask;
+import android.widget.Button;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -48,12 +52,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
 
         if(isMicrophonePresent()){
 
             getPermission();
         }
+    }
+
+
+    //Novo botao
+    public  void roundedButtonPressed(View v) throws IOException {
+
     }
 
     //Método para gravar o audio
@@ -134,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
 
         File musicDrectory = contextWrapper.getExternalFilesDir(Environment.DIRECTORY_MUSIC);
 
-        File file = new File(musicDrectory, "recordedFile" + ".3gp");
+        File file = new File(musicDrectory, "recordedFile" + ".mp3");
 
         return file.getPath();
     }
@@ -174,14 +184,14 @@ public class MainActivity extends AppCompatActivity {
             Audio audio = new Audio();
 
             audio.setAudio(ended);
-            audio.setFormat("3gp");
+            audio.setFormat("mp3");
 
             JSONObject jsonObj = new JSONObject();
 
             jsonObj.put("Audio", audio.getAudio());
             jsonObj.put("Format", audio.getFormat());
 
-            String postUrl = "localhost:5000/detect";
+            String postUrl = "http://localhost:5000/detect";
 
             RequestQueue requestQueue = Volley.newRequestQueue(this);
 
@@ -214,5 +224,4 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-
 }

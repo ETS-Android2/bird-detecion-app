@@ -14,10 +14,11 @@
         android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.134" />
+        app:layout_constraintVertical_bias="0.065" />
 
     <ImageButton
         android:id="@+id/recordButton"
@@ -28,8 +29,10 @@
         android:onClick="recordPressed"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/stopButton"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.636"
         app:srcCompat="@drawable/ic_baseline_mic_24" />
 
     <ImageButton
@@ -41,8 +44,10 @@
         android:onClick="playPressed"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/stopButton"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.636"
         app:srcCompat="@drawable/ic_baseline_play_arrow_24" />
 
     <ImageButton
@@ -52,8 +57,10 @@
         android:onClick="stopPressed"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.636"
         app:srcCompat="@drawable/ic_baseline_stop_24" />
 
     <ImageButton
@@ -66,5 +73,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/stopButton"
         app:srcCompat="@drawable/ic_baseline_send_24" />
+
+    <Button
+        android:id="@+id/roundedButton"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:background="@drawable/custom_button"
+        android:onClick="roundedButtonPressed"
+        android:text="Gravar"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/stopButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.592" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
