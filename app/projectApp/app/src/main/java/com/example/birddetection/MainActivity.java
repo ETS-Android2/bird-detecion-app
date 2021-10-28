@@ -52,19 +52,50 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
+        setContentView(R.layout.activity_main);
         if(isMicrophonePresent()){
 
             getPermission();
         }
     }
 
-
     //Novo botao
     public  void roundedButtonPressed(View v) throws IOException {
 
+        Timer timer = new Timer();
+
+        final long time = 5000;
+
+       TimerTask recordTask =  new TimerTask() {
+           @Override
+           public void run() {
+
+               recordPressed(v);
+           }
+       };
+
+       timer.scheduleAtFixedRate(recordTask, 1000, time);
+
+        TimerTask stopSendTask = new TimerTask() {
+            @Override
+            public void run() {
+
+                stopPressed(v);
+
+                try {
+
+                    postJson(v);
+                } catch (IOException e) {
+
+                    e.printStackTrace();
+                }
+            }
+
+        };
+
+        timer.scheduleAtFixedRate(stopSendTask, 5000, time);
     }
+
 
     //Método para gravar o audio
     public void recordPressed(View v){
@@ -79,7 +110,8 @@ public class MainActivity extends AppCompatActivity {
             mediaRecorder.prepare();
             mediaRecorder.start();
 
-            Toast.makeText(this, "Gravação iniciada", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Gravação iniciada", Toast.LENGTH_SHORT).show();
+            System.out.println("Gravação iniciada");
 
         } catch (IOException e) {
 
@@ -93,27 +125,27 @@ public class MainActivity extends AppCompatActivity {
         mediaRecorder.stop();
         mediaRecorder.release();
         mediaRecorder = null;
-        Toast.makeText(this, "Gravação encerrada", Toast.LENGTH_SHORT).show();
-
+        //Toast.makeText(this, "Gravação encerrada", Toast.LENGTH_SHORT).show();
+        System.out.println("Gravação interrompida");
     }
 
-    //Método para reproduzir a gravação feita
-    public void playPressed(View v){
-
-        try {
-
-            mediaPlayer = new MediaPlayer();
-            mediaPlayer.setDataSource(recordedFilePath());
-            mediaPlayer.prepare();
-            mediaPlayer.start();
-
-            Toast.makeText(this, "Reproduzindo gravação", Toast.LENGTH_SHORT).show();
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-        }
-    }
+//    //Método para reproduzir a gravação feita
+//    public void playPressed(View v){
+//
+//        try {
+//
+//            mediaPlayer = new MediaPlayer();
+//            mediaPlayer.setDataSource(recordedFilePath());
+//            mediaPlayer.prepare();
+//            mediaPlayer.start();
+//
+//            Toast.makeText(this, "Reproduzindo gravação", Toast.LENGTH_SHORT).show();
+//
+//        } catch (IOException e) {
+//
+//            e.printStackTrace();
+//        }
+//    }
 
     //Método para verificar se o microphone esta ativo
     private boolean isMicrophonePresent(){
@@ -172,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
         return Base64.getMimeEncoder().encodeToString(baos.toByteArray());
     }
 
-    public void test(View v) throws IOException {
+    public void postJson(View v) throws IOException {
         String value =  recordedFilePath();
 
         String ended = getBytes(new File(value));
@@ -191,27 +223,29 @@ public class MainActivity extends AppCompatActivity {
             jsonObj.put("Audio", audio.getAudio());
             jsonObj.put("Format", audio.getFormat());
 
+            System.out.println(jsonObj);
+
             String postUrl = "http://localhost:5000/detect";
 
             RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, jsonObj, new Response.Listener<JSONObject>(){
-
-                @Override
-                public void onResponse(JSONObject response){
-
-                    System.out.println(response);
-                }
-            }, new Response.ErrorListener(){
-
-                @Override
-                public void onErrorResponse(VolleyError error){
-
-                    error.printStackTrace();
-                }
-            });
-
-            requestQueue.add(jsonObjectRequest);
+//            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, jsonObj, new Response.Listener<JSONObject>(){
+//
+//                @Override
+//                public void onResponse(JSONObject response){
+//
+//                    System.out.println(response);
+//                }
+//            }, new Response.ErrorListener(){
+//
+//                @Override
+//                public void onErrorResponse(VolleyError error){
+//
+//                    error.printStackTrace();
+//                }
+//            });
+//
+//            requestQueue.add(jsonObjectRequest);
 
             //Aparentemente tem algum limite de exibição de caracteres
             //System.out.println(jsonObj);
