@@ -1,4 +1,4 @@
-package com.example.birddetection;
+package com.project.birddetection;
 
 import android.content.Context;
 
@@ -21,6 +21,7 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.birddetection", appContext.getPackageName());
+
+        assertEquals("com.project.birddetection", appContext.getPackageName());
     }
 }

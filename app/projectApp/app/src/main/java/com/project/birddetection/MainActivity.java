@@ -1,4 +1,4 @@
-package com.example.birddetection;
+package com.project.birddetection;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -60,21 +60,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Novo botao
-    public  void roundedButtonPressed(View v) throws IOException {
+    public  void roundedButtonPressed(final View v) throws IOException {
 
         Timer timer = new Timer();
 
         final long time = 5000;
 
-       TimerTask recordTask =  new TimerTask() {
-           @Override
-           public void run() {
+        TimerTask recordTask =  new TimerTask() {
+            @Override
+            public void run() {
 
-               recordPressed(v);
-           }
-       };
+                recordPressed(v);
+            }
+        };
 
-       timer.scheduleAtFixedRate(recordTask, 1000, time);
+        timer.scheduleAtFixedRate(recordTask, 1000, time);
 
         TimerTask stopSendTask = new TimerTask() {
             @Override

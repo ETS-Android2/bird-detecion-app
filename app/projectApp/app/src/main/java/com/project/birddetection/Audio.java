@@ -1,4 +1,4 @@
-package com.example.birddetection;
+package com.project.birddetection;
 
 public class Audio {
 
