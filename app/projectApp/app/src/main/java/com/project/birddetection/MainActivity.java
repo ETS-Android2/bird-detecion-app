@@ -59,52 +59,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //Novo botao
-    public  void roundedButtonPressed(final View v) throws IOException {
-
-        Timer timer = new Timer();
-
-        final long time = 5000;
-
-        TimerTask recordTask =  new TimerTask() {
-            @Override
-            public void run() {
-
-                recordPressed(v);
-            }
-        };
-
-        timer.scheduleAtFixedRate(recordTask, 1000, time);
-
-        TimerTask stopSendTask = new TimerTask() {
-            @Override
-            public void run() {
-
-                stopPressed(v);
-
-                try {
-
-                    postJson(v);
-                } catch (IOException e) {
-
-                    e.printStackTrace();
-                }
-            }
-
-        };
-
-        timer.scheduleAtFixedRate(stopSendTask, 5000, time);
-    }
-
-
     //Método para gravar o audio
     public void recordPressed(View v){
 
         try {
-
             mediaRecorder = new MediaRecorder();
             mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_2_TS);
             mediaRecorder.setOutputFile(recordedFilePath());
             mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
             mediaRecorder.prepare();
@@ -201,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
         baos.close();
 
         //Transforma o byte array gerado em base 64
-        return Base64.getMimeEncoder().encodeToString(baos.toByteArray());
+        return Base64.getEncoder().encodeToString(baos.toByteArray());
     }
 
     public void postJson(View v) throws IOException {
