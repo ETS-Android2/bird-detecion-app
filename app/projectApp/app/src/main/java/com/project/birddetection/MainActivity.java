@@ -14,6 +14,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -46,6 +47,12 @@ public class MainActivity extends AppCompatActivity {
 
     private static int MICROPHONE_PERMISSION_CODE = 200;
 
+    Button btnRecord;
+    Button btnStop;
+    TextView timerText;
+    Timer timer;
+    TimerTask timerTask;
+    Double time = 0.0;
     MediaRecorder mediaRecorder;
     MediaPlayer mediaPlayer;
 
@@ -53,6 +60,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        timerText = (TextView)findViewById(R.id.timeCounter);
+        btnRecord = (Button)findViewById(R.id.roundedButton);
+        btnStop = (Button)findViewById(R.id.stopButton);
+        btnStop.setClickable(false);
+        timer = new Timer();
         if(isMicrophonePresent()){
 
             getPermission();
@@ -65,11 +77,15 @@ public class MainActivity extends AppCompatActivity {
         try {
             mediaRecorder = new MediaRecorder();
             mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_2_TS);
+            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
             mediaRecorder.setOutputFile(recordedFilePath());
             mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
             mediaRecorder.prepare();
             mediaRecorder.start();
+            startTimer(v);
+            btnRecord.setClickable(false);
+            btnStop.setClickable(true);
+
 
             //Toast.makeText(this, "Gravação iniciada", Toast.LENGTH_SHORT).show();
             System.out.println("Gravação iniciada");
@@ -82,10 +98,12 @@ public class MainActivity extends AppCompatActivity {
 
     //Método para parar a gravação do audio
     public void stopPressed(View v){
-
+        btnStop.setClickable(false);
         mediaRecorder.stop();
         mediaRecorder.release();
         mediaRecorder = null;
+        stopTimer(v);
+        btnRecord.setClickable(true);
         //Toast.makeText(this, "Gravação encerrada", Toast.LENGTH_SHORT).show();
         System.out.println("Gravação interrompida");
     }
@@ -218,5 +236,46 @@ public class MainActivity extends AppCompatActivity {
             je.printStackTrace();
 
         }
+    }
+
+    public void startTimer(View v){
+
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        time++;
+                        timerText.setText(getTimerText());
+                    }
+                });
+            }
+        };
+        timer.scheduleAtFixedRate(timerTask, 0, 1000);
+    }
+
+    public String getTimerText(){
+
+        int rounded = (int) Math.round(time);
+
+        int sec = ((rounded % 86400) % 3600) %60;
+        int min = ((rounded % 86400) % 3600)/60;
+        int hr = ((rounded % 86400) / 3600);
+
+        return formatTime(sec, min, hr);
+    }
+
+    public String formatTime(int sec, int min, int hr){
+
+        return String.format("%02d",hr) + " : " + String.format("%02d",min) + " : " + String.format("%02d",sec);
+    }
+
+    public void stopTimer(View view)
+    {
+
+        timerTask.cancel();
     }
 }
