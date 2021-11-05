@@ -10,8 +10,8 @@ import pathlib
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 
-from pygame import mixer  # Load the popular external library
-from playsound import playsound
+# from pygame import mixer  # Load the popular external library
+# from playsound import playsound
 
 import base64
 
@@ -59,18 +59,11 @@ app = Flask(__name__)
 
 #     return ""
 
-@app.route("/salvaMp3", methods=["POST"])
-def salvaMp3():
-
-    base64Json = request.get_json()
-    base64String = base64Json["Audio"]
-
+def salvaMp3(base64String, filepath):
     mp3File = base64.b64decode(base64String)
 
-    with open("C:/Users/gabri/Desktop/bird-detecion-app/webserver/audios/AnuBranco/audioTeste.mp3", 'wb') as pcm:
-        pcm.write(mp3File) 
-
-    return ""
+    with open(filepath, 'wb') as pcm:
+        pcm.write(mp3File)
 
 @app.route("/detect", methods=["POST"])
 def detect():
@@ -89,14 +82,11 @@ def detect():
     ## save to file
     # with open("filename.mp3", 'wb') as pcm:
     #   pcm.write(decoded_data) 
+    
+    filename = './audios/request.mp3'
+    salvaMp3(request.get_json()["Audio"], filename)
 
-    s = 'AnuBranco'
-
-    filename = s+'1.mp3'
-
-    birdname = f'./audios/{s}/{filename}'
-
-    y, sr = librosa.load(birdname, mono=True, duration=30)
+    y, sr = librosa.load(filename, mono=True, duration=30)
 
     # Features
     chroma_stft = librosa.feature.chroma_stft(y=y, sr=sr)
