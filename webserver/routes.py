@@ -25,39 +25,39 @@ warnings.filterwarnings('ignore')
 
 app = Flask(__name__)
 
-@app.route("/playSound", methods=["POST"])
-def playSound():
-    r = request.get_json()
+# @app.route("/playSound", methods=["POST"])
+# def playSound():
+#     r = request.get_json()
 
-    if r["audio"] == "1":
-        playsound('C:/Users/gabri/Desktop/bird-detecion-app/webserver/audios/AnuBranco/AnuBranco1.mp3')
-    elif r["audio"] == "2":
-        playsound('C:/Users/gabri/Desktop/bird-detecion-app/webserver/audios/AnuBranco/audioTeste.mp3')
-    elif r["audio"] == "3":
-        playsound('C:/Users/gabri/Desktop/bird-detecion-app/webserver/audios/AnuBranco/Juliette - Diferenca Mara.mp3')
-    else:
-        playsound('C:/Users/gabri/Desktop/bird-detecion-app/webserver/audios/AnuBranco/inexistente.mp3')
+#     if r["audio"] == "1":
+#         playsound('C:/Users/gabri/Desktop/bird-detecion-app/webserver/audios/AnuBranco/AnuBranco1.mp3')
+#     elif r["audio"] == "2":
+#         playsound('C:/Users/gabri/Desktop/bird-detecion-app/webserver/audios/AnuBranco/audioTeste.mp3')
+#     elif r["audio"] == "3":
+#         playsound('C:/Users/gabri/Desktop/bird-detecion-app/webserver/audios/AnuBranco/Juliette - Diferenca Mara.mp3')
+#     else:
+#         playsound('C:/Users/gabri/Desktop/bird-detecion-app/webserver/audios/AnuBranco/inexistente.mp3')
 
-    return "teste"
+#     return "teste"
 
-@app.route("/mixer", methods=["POST"])
-def mixerSound():
-    r = request.get_json()
+# @app.route("/mixer", methods=["POST"])
+# def mixerSound():
+#     r = request.get_json()
 
-    mixer.init()
+#     mixer.init()
 
-    if r["audio"] == "1":
-        mixer.music.load('C:/Users/gabri/Desktop/bird-detecion-app/webserver/audios/AnuBranco/AnuBranco1.mp3')
-    elif r["audio"] == "2":
-        mixer.music.load('C:/Users/gabri/Desktop/bird-detecion-app/webserver/audios/AnuBranco/audioTeste.mp3')
-    elif r["audio"] == "3":
-        mixer.music.load('C:/Users/gabri/Desktop/bird-detecion-app/webserver/audios/AnuBranco/Juliette - Diferenca Mara.mp3')
-    else:
-        mixer.music.load('C:/Users/gabri/Desktop/bird-detecion-app/webserver/audios/AnuBranco/inexistente.mp3')
+#     if r["audio"] == "1":
+#         mixer.music.load('C:/Users/gabri/Desktop/bird-detecion-app/webserver/audios/AnuBranco/AnuBranco1.mp3')
+#     elif r["audio"] == "2":
+#         mixer.music.load('C:/Users/gabri/Desktop/bird-detecion-app/webserver/audios/AnuBranco/audioTeste.mp3')
+#     elif r["audio"] == "3":
+#         mixer.music.load('C:/Users/gabri/Desktop/bird-detecion-app/webserver/audios/AnuBranco/Juliette - Diferenca Mara.mp3')
+#     else:
+#         mixer.music.load('C:/Users/gabri/Desktop/bird-detecion-app/webserver/audios/AnuBranco/inexistente.mp3')
 
-    mixer.music.play()
+#     mixer.music.play()
 
-    return ""
+#     return ""
 
 @app.route("/salvaMp3", methods=["POST"])
 def salvaMp3():
