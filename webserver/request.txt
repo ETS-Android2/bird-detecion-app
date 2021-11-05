@@ -1,0 +1,2 @@
+# Sends request to webserver using body contained in body.txt
+curl -X POST -H "Content-type:application/json" --data-binary "@body.txt" http://localhost:5000/detect
