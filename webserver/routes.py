@@ -20,6 +20,11 @@ import IPython.display as ipd
 #import warnings
 #warnings.filterwarnings('ignore')
 
+from simple_image_download import simple_image_download as simp
+
+
+downloader = simp.simple_image_download
+
 app = Flask(__name__)
 
 def salvaMp3(base64String, filepath):
@@ -27,6 +32,9 @@ def salvaMp3(base64String, filepath):
 
     with open(filepath, 'wb') as pcm:
         pcm.write(mp3File)
+
+def getImageUrl(keyword):
+    return downloader().urls(f'{keyword} bird', 1)[0]
 
 @app.route("/detect", methods=["POST"])
 def detect():
@@ -63,6 +71,6 @@ def detect():
     
     especie_identificada = species[index]
 
-    return {"species": especie_identificada}
+    return {"species": especie_identificada, "image": getImageUrl(especie_identificada)}
 
 app.run()
