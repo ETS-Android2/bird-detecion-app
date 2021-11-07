@@ -17,8 +17,8 @@ from keras import layers
 from keras.models import Sequential
 import IPython.display as ipd
 
-import warnings
-warnings.filterwarnings('ignore')
+#import warnings
+#warnings.filterwarnings('ignore')
 
 app = Flask(__name__)
 
