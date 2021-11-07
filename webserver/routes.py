@@ -1,3 +1,4 @@
+from datetime import time
 from flask import Flask, request
 import matplotlib.pyplot as plt
 import librosa
@@ -9,6 +10,11 @@ import pathlib
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 
+# from pygame import mixer  # Load the popular external library
+# from playsound import playsound
+
+import base64
+
 from tensorflow import keras
 from keras import layers
 from keras.models import Sequential
@@ -19,6 +25,45 @@ warnings.filterwarnings('ignore')
 
 app = Flask(__name__)
 
+# @app.route("/playSound", methods=["POST"])
+# def playSound():
+#     r = request.get_json()
+
+#     if r["audio"] == "1":
+#         playsound('C:/Users/gabri/Desktop/bird-detecion-app/webserver/audios/AnuBranco/AnuBranco1.mp3')
+#     elif r["audio"] == "2":
+#         playsound('C:/Users/gabri/Desktop/bird-detecion-app/webserver/audios/AnuBranco/audioTeste.mp3')
+#     elif r["audio"] == "3":
+#         playsound('C:/Users/gabri/Desktop/bird-detecion-app/webserver/audios/AnuBranco/Juliette - Diferenca Mara.mp3')
+#     else:
+#         playsound('C:/Users/gabri/Desktop/bird-detecion-app/webserver/audios/AnuBranco/inexistente.mp3')
+
+#     return "teste"
+
+# @app.route("/mixer", methods=["POST"])
+# def mixerSound():
+#     r = request.get_json()
+
+#     mixer.init()
+
+#     if r["audio"] == "1":
+#         mixer.music.load('C:/Users/gabri/Desktop/bird-detecion-app/webserver/audios/AnuBranco/AnuBranco1.mp3')
+#     elif r["audio"] == "2":
+#         mixer.music.load('C:/Users/gabri/Desktop/bird-detecion-app/webserver/audios/AnuBranco/audioTeste.mp3')
+#     elif r["audio"] == "3":
+#         mixer.music.load('C:/Users/gabri/Desktop/bird-detecion-app/webserver/audios/AnuBranco/Juliette - Diferenca Mara.mp3')
+#     else:
+#         mixer.music.load('C:/Users/gabri/Desktop/bird-detecion-app/webserver/audios/AnuBranco/inexistente.mp3')
+
+#     mixer.music.play()
+
+#     return ""
+
+def salvaMp3(base64String, filepath):
+    mp3File = base64.b64decode(base64String)
+
+    with open(filepath, 'wb') as pcm:
+        pcm.write(mp3File)
 
 @app.route("/detect", methods=["POST"])
 def detect():
@@ -26,13 +71,22 @@ def detect():
     #s = request.get_data()
     #bodyJson = request.get_json()
     
-    s = 'AnuBranco'
+    ## Example of reading from base64
+    # import base64
+    #
+    # data_in_base64 = ''
+    #
+    ## get bytes
+    # decoded_data = base64.b64decode(data)
+    #
+    ## save to file
+    # with open("filename.mp3", 'wb') as pcm:
+    #   pcm.write(decoded_data) 
+    
+    filename = './audios/request.mp3'
+    salvaMp3(request.get_json()["Audio"], filename)
 
-    filename = s+'1.mp3'
-
-    birdname = f'./audios/{s}/{filename}'
-
-    y, sr = librosa.load(birdname, mono=True, duration=30)
+    y, sr = librosa.load(filename, mono=True, duration=30)
 
     # Features
     chroma_stft = librosa.feature.chroma_stft(y=y, sr=sr)
