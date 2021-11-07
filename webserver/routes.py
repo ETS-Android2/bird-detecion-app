@@ -1,3 +1,4 @@
+from datetime import time
 from flask import Flask, request
 import matplotlib.pyplot as plt
 import librosa
@@ -9,30 +10,39 @@ import pathlib
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 
+import base64
+
 from tensorflow import keras
 from keras import layers
 from keras.models import Sequential
 import IPython.display as ipd
 
-import warnings
-warnings.filterwarnings('ignore')
+#import warnings
+#warnings.filterwarnings('ignore')
+
+from simple_image_download import simple_image_download as simp
+
+
+downloader = simp.simple_image_download
 
 app = Flask(__name__)
 
+def salvaMp3(base64String, filepath):
+    mp3File = base64.b64decode(base64String)
+
+    with open(filepath, 'wb') as pcm:
+        pcm.write(mp3File)
+
+def getImageUrl(keyword):
+    return downloader().urls(f'{keyword} bird', 1)[0]
 
 @app.route("/detect", methods=["POST"])
 def detect():
-
-    #s = request.get_data()
-    #bodyJson = request.get_json()
     
-    s = 'AnuBranco'
+    filename = './audios/request.mp3'
+    salvaMp3(request.get_json()["Audio"], filename)
 
-    filename = s+'1.mp3'
-
-    birdname = f'./audios/{s}/{filename}'
-
-    y, sr = librosa.load(birdname, mono=True, duration=30)
+    y, sr = librosa.load(filename, mono=True, duration=30)
 
     # Features
     chroma_stft = librosa.feature.chroma_stft(y=y, sr=sr)
@@ -61,6 +71,6 @@ def detect():
     
     especie_identificada = species[index]
 
-    return {"species": especie_identificada}
+    return {"species": especie_identificada, "image": getImageUrl(especie_identificada)}
 
 app.run()
