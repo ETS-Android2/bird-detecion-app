@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.ContextWrapper;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -277,5 +278,15 @@ public class MainActivity extends AppCompatActivity {
     {
 
         timerTask.cancel();
+    }
+
+    public void resetTimer(View v){
+
+        time = 0.0;
+        timerText.setText(formatTime(0,0,0));
+
+        Intent intent = new Intent(this,BirdInfo.class);
+        startActivity(intent);
+
     }
 }
