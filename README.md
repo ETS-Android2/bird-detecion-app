@@ -1,19 +1,21 @@
-# Sobre o projeto
+# Bird Detection Project
+
+## Sobre o projeto
 O projeto consistem na identificação da espécie de pássaros baseado em seu canto.
 É composto por uma Rede Neural Artificial treinada por nós, com a finalidade de classificar um áudio baseado em algumas features que ele possui, na tentativa de categorizar, e futuramente prever a qual categoria (espécie) este áudio representa.
 
-### Como funciona      
+#### Como funciona      
 Através de um aplicativo Android, o usuário grava um áudio que é enviado a um servidor python (Flask) que extrairá features e executará uma predição da rede neural com base em áudios que foi treinada.
 A partir disto, o aplicativo exibirá ao usuário a espécie identificada, e algumas informações relevantes/curiosidades sobre.
 <hr>  
       
-# Tecnologias utilizadas 
-#### :snake: Python
-#### :iphone: Android
+## Tecnologias utilizadas 
+##### :snake: Python
+##### :iphone: Android
 <hr>  
 
-# Como executar o projeto
-## Webserver
+## Como executar o projeto
+### Webserver
 ```bash
 git clone ...
 
@@ -35,30 +37,36 @@ Response esperado
 {"image":"https://<...some image url...>.jpg","species":"<specie name>"}
 ```
 
-## Android App
+### Android App
 ...
 <hr> 
 
-# Próximos objetivos
-
-## IA
+## Objetivos
+### IA
+- [X] Unificação dos dados
+- [X] Extração de features
+- [X] Estudo dos dados
+- [X] Treino e salvamento
 - [ ] Filtro dos dados de treino baseado em insights obtidos
 - [ ] Acréscimo de novas classes
 - [ ] Redução de ruído do áudio
 - [ ] Implementar callback no fit
 - [ ] Testes na inicialização (otimizadores)
 
-## Webserver
+### Webserver
+- [X] Execução da Rede Neural
+- [X] Uso de arquivo da requisição
+- [X] Retorno de URL de imagem da especie identificada
 - [ ] Melhoria salvamento arquivo
 
-## App
-- [ ] 
+### App
+- [ ] ...
 <hr>  
 
-# Autores
-[Gustavo Lucas da Rosa] (https://github.com/guslucas) <br>
-[Bruno Lemos Haddad] (https://github.com/Bhaddad10)
+## Autores
+[Gustavo Lucas da Rosa](https://github.com/guslucas) <br>
+[Bruno Lemos Haddad](https://github.com/Bhaddad10)
 <hr>  
 
-# Orientador e Professor
+## Orientador e Professor
 Vandeir Aniceto Pinheiro @ UNIFAJ
