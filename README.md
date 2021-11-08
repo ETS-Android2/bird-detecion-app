@@ -1,7 +1,7 @@
-# Bird Detection Project
+# Bird Detection Project :parrot::deciduous_tree:
 
 ## Sobre o projeto
-O projeto consiste na identificação da espécie de pássaros baseado em seus cantos. <br>
+O projeto consiste na identificação da espécie de pássaros baseado em seus cantos. :musical_note::bird:<br>
 É composto por uma Rede Neural Artificial treinada por nós, com a finalidade de classificar um áudio baseado em algumas features que ele possui, na tentativa de categorizar, e futuramente prever a qual categoria (espécie) este áudio pertence.
 
 #### Como funciona      
