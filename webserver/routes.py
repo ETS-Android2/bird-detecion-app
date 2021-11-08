@@ -22,8 +22,9 @@ import IPython.display as ipd
 
 from simple_image_download import simple_image_download as simp
 
-
 downloader = simp.simple_image_download
+# Carregando o Modelo
+recognizer = keras.models.load_model('./birdRecognizer')
 
 app = Flask(__name__)
 
@@ -59,11 +60,6 @@ def detect():
 
     result = pd.read_csv(StringIO(to_append), sep=' ', header=None)
     result = result.drop([0],axis=1)
-
-    species = ['AnuBranco', 'BicoEncarnado', 'Bigodinho', 'CanarioCabeçaPreta', 'Chorão', 'Curió', 'TrincaFerroCinza']
-
-    # Carregando o Modelo
-    recognizer = keras.models.load_model('./birdRecognizer')
 
     # Predict
     species = ['AnuBranco', 'BicoEncarnado', 'Bigodinho', 'CanarioCabecaPreta', 'Chorao', 'Curio', 'TrincaFerroCinza']
