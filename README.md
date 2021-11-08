@@ -1,6 +1,3 @@
-# bird-detecion-app
-Application with the purpose of identifying bird specie based on it's chirping sound using Neural Network.
-
 # Sobre o projeto
 O projeto consistem na identificação da espécie de pássaros baseado em seu canto.
 É composto por uma Rede Neural Artificial treinada por nós, com a finalidade de classificar um áudio baseado em algumas features que ele possui, na tentativa de categorizar, e futuramente prever a qual categoria (espécie) este áudio representa.
