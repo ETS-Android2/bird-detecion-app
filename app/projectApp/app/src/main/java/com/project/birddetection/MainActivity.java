@@ -12,11 +12,9 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,20 +26,13 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.Writer;
 import java.util.Base64;
 import java.util.Timer;
 import java.util.TimerTask;
-import android.widget.Button;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -209,28 +200,23 @@ public class MainActivity extends AppCompatActivity {
 
             RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-//            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, jsonObj, new Response.Listener<JSONObject>(){
-//
-//                @Override
-//                public void onResponse(JSONObject response){
-//
-//                    System.out.println(response);
-//                }
-//            }, new Response.ErrorListener(){
-//
-//                @Override
-//                public void onErrorResponse(VolleyError error){
-//
-//                    error.printStackTrace();
-//                }
-//            });
-//
-//            requestQueue.add(jsonObjectRequest);
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, jsonObj, new Response.Listener<JSONObject>(){
 
-            //Aparentemente tem algum limite de exibição de caracteres
-            //System.out.println(jsonObj);
-            //String total = jsonObj.toString();
-            //Log.v("json gerado:", total);
+                @Override
+                public void onResponse(JSONObject response){
+
+                    System.out.println(response);
+                }
+            }, new Response.ErrorListener(){
+
+                @Override
+                public void onErrorResponse(VolleyError error){
+
+                    error.printStackTrace();
+                }
+            });
+
+            requestQueue.add(jsonObjectRequest);
 
         }   catch (JSONException je){
 
@@ -285,7 +271,7 @@ public class MainActivity extends AppCompatActivity {
         time = 0.0;
         timerText.setText(formatTime(0,0,0));
 
-        Intent intent = new Intent(this,BirdInfo.class);
+        Intent intent = new Intent(this, BirdInfoActivity.class);
         startActivity(intent);
 
     }
