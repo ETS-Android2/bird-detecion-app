@@ -39,7 +39,15 @@ Response esperado
 ```
 
 ### Android App
-...
+```bash
+cd app 
+
+cd projectApp
+
+Abrir a pasta pelo Android Studio ou outro compilador desejado
+
+Executar em um dispotivo android 8.0.1 ou superior
+```
 <hr> 
 
 ## Objetivos
