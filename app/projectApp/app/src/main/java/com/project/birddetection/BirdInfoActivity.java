@@ -32,7 +32,8 @@ public class BirdInfoActivity extends AppCompatActivity {
 
     private void getBird() {
 
-        String getUrl = "http://localhost:5000/detect";
+        //String getUrl = "http://localhost:5000/detect";
+        String getUrl = "http://192.168.0.113:5500/Trabalho1/JSONTesting.json";
 
         TextView specie = findViewById(R.id.infoTextView);
         ImageView birdView = findViewById(R.id.birdImageView);
@@ -50,7 +51,6 @@ public class BirdInfoActivity extends AppCompatActivity {
                            specie.setText(response.getString("species"));
 
                            Picasso.get().load(imageUrl).into(birdView);
-
                         } catch (JSONException jsonException) {
 
                             jsonException.printStackTrace();
