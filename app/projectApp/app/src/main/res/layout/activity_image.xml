@@ -4,29 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#B68383"
     tools:context=".BirdInfoActivity">
 
     <ImageView
         android:id="@+id/birdImageView"
-        android:layout_width="274dp"
-        android:layout_height="368dp"
+        android:layout_width="280dp"
+        android:layout_height="329dp"
+        android:background="@drawable/background_image"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.242"
+        app:layout_constraintVertical_bias="0.539"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/infoTextView"
         android:layout_width="275dp"
         android:layout_height="75dp"
-        android:text="Informações sobre o pássaro"
+        android:background="@drawable/background_grey"
+        android:gravity="center"
+        android:text="Espécie"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.477"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.696" />
+        app:layout_constraintVertical_bias="0.192" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

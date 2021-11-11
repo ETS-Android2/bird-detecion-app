@@ -23,6 +23,7 @@ public class BirdInfoActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
         ImageView birdView = findViewById(R.id.birdImageView);

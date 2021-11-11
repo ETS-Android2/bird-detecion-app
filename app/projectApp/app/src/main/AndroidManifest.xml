@@ -23,6 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".BirdInfoActivity"></activity>
+        <activity android:name=".BirdDetectionActivity"></activity>
     </application>
 
 </manifest>
