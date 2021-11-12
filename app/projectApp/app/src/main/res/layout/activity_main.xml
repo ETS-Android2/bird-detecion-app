@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#B68383"
+    android:background="#ffb3b3"
     tools:context=".MainActivity">
 
     <TextView
@@ -14,7 +14,7 @@
         android:gravity="center"
         android:text="Bird  Spot"
         android:textAllCaps="false"
-        android:textColor="#FFFFFF"
+        android:textColor="#000000"
         android:textSize="96sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

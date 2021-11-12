@@ -1,6 +1,8 @@
 package com.project.birddetection;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -68,6 +70,13 @@ public class BirdInfoActivity extends AppCompatActivity {
 
         requestQueue.add(jsonObjectRequest);
 
+    }
+
+    public void returnDetection(View v){
+
+        Intent intent = new Intent(BirdInfoActivity.this,  BirdDetectionActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 }

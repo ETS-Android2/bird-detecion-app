@@ -1,17 +1,24 @@
 package com.project.birddetection;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.provider.DocumentsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -30,6 +37,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Base64;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -37,10 +45,12 @@ import java.util.TimerTask;
 public class BirdDetectionActivity extends AppCompatActivity {
 
     private static int MICROPHONE_PERMISSION_CODE = 200;
+    private  int REQ_MP3= 21;
 
     Button btnRecord;
     Button btnStop;
     TextView timerText;
+    TextView statusText;
     Timer timer;
     TimerTask timerTask;
     Double time = 0.0;
@@ -53,6 +63,7 @@ public class BirdDetectionActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detection);
+        statusText = (TextView)findViewById(R.id.statusTextView);
         timerText = (TextView)findViewById(R.id.timeCounter);
         btnRecord = (Button)findViewById(R.id.roundedButton);
         btnStop = (Button)findViewById(R.id.stopButton);
@@ -76,11 +87,11 @@ public class BirdDetectionActivity extends AppCompatActivity {
             mediaRecorder.prepare();
             mediaRecorder.start();
             startTimer(v);
+            btnRecord.setBackgroundResource(R.drawable.rounded_button);
+            btnRecord.setText("Gravando...");
             btnRecord.setClickable(false);
             btnStop.setClickable(true);
-
-
-            //Toast.makeText(this, "Gravação iniciada", Toast.LENGTH_SHORT).show();
+            statusText.setText("Gravação iniciada, para interromper pressione Parar.");
             System.out.println("Gravação iniciada");
 
         } catch (IOException e) {
@@ -97,8 +108,30 @@ public class BirdDetectionActivity extends AppCompatActivity {
         mediaRecorder = null;
         stopTimer(v);
         btnRecord.setClickable(true);
-        //Toast.makeText(this, "Gravação encerrada", Toast.LENGTH_SHORT).show();
+        btnRecord.setText("Gravar");
+        btnRecord.setBackgroundResource(R.drawable.background_light_blue);
+        statusText.setText("Gravação interrompida, em instantes traremos o resultado!");
         System.out.println("Gravação interrompida");
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                resetTimer(v);
+                try {
+
+                    postJson(v);
+                } catch (IOException e) {
+
+                    e.printStackTrace();
+                }
+
+                Intent intent = new Intent(BirdDetectionActivity.this,  BirdInfoActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }, 7000);
     }
 
 //    //Método para reproduzir a gravação feita
@@ -199,26 +232,26 @@ public class BirdDetectionActivity extends AppCompatActivity {
 
             String postUrl = "http://localhost:5000/detect";
 
-            RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, jsonObj, new Response.Listener<JSONObject>(){
-
-                @Override
-                public void onResponse(JSONObject response){
-
-                    System.out.println(response);
-                }
-            }, new Response.ErrorListener(){
-
-                @Override
-                public void onErrorResponse(VolleyError error){
-
-                    error.printStackTrace();
-                }
-            });
-
-            requestQueue.add(jsonObjectRequest);
-
+//            RequestQueue requestQueue = Volley.newRequestQueue(this);
+//
+//            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, jsonObj, new Response.Listener<JSONObject>(){
+//
+//                @Override
+//                public void onResponse(JSONObject response){
+//
+//                    System.out.println(response);
+//                }
+//            }, new Response.ErrorListener(){
+//
+//                @Override
+//                public void onErrorResponse(VolleyError error){
+//
+//                    error.printStackTrace();
+//                }
+//            });
+//
+//            requestQueue.add(jsonObjectRequest);
+//
         }   catch (JSONException je){
 
             je.printStackTrace();
@@ -271,9 +304,20 @@ public class BirdDetectionActivity extends AppCompatActivity {
 
         time = 0.0;
         timerText.setText(formatTime(0,0));
+    }
 
-        Intent intent = new Intent(this, BirdInfoActivity.class);
+    public void projectInfo(View v){
+
+
+        Intent intent = new Intent(BirdDetectionActivity.this,  ProjectInfoActivity.class);
         startActivity(intent);
+    }
+
+    public void uploadFile(){
+
+
 
     }
+
+
 }
