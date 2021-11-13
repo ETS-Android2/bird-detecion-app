@@ -56,7 +56,7 @@ Executar em um dispotivo android 8.0.1 ou superior
 - [X] Extração de features
 - [X] Estudo dos dados
 - [X] Treino e salvamento
-- [ ] Filtro dos dados de treino baseado em insights obtidos
+- [X] Filtro dos dados de treino baseado em insights obtidos 
 - [ ] Acréscimo de novas classes
 - [ ] Redução de ruído do áudio
 - [ ] Implementar callback no fit
