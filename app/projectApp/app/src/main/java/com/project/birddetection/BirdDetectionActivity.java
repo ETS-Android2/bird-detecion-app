@@ -1,24 +1,18 @@
 package com.project.birddetection;
 
 import android.Manifest;
-import android.app.Dialog;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.provider.DocumentsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -37,15 +31,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Base64;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class BirdDetectionActivity extends AppCompatActivity {
+public class BirdDetectionActivity extends AppCompatActivity implements Dialog.dialogListener{
 
     private static int MICROPHONE_PERMISSION_CODE = 200;
     private  int REQ_MP3= 21;
+
+    private String postUrl;
 
     Button btnRecord;
     Button btnStop;
@@ -69,6 +64,8 @@ public class BirdDetectionActivity extends AppCompatActivity {
         btnStop = (Button)findViewById(R.id.stopButton);
         btnStop.setClickable(false);
         timer = new Timer();
+        openDialog();
+
         if(isMicrophonePresent()){
 
             getPermission();
@@ -114,6 +111,7 @@ public class BirdDetectionActivity extends AppCompatActivity {
         System.out.println("Gravação interrompida");
 
         Handler handler = new Handler();
+
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -122,16 +120,18 @@ public class BirdDetectionActivity extends AppCompatActivity {
                 try {
 
                     postJson(v);
+
+                    Intent intent = new Intent(BirdDetectionActivity.this, BirdInfoActivity.class);
+                    intent.putExtra("chave", postUrl);
+                    startActivity(intent);
+
                 } catch (IOException e) {
 
                     e.printStackTrace();
                 }
 
-                Intent intent = new Intent(BirdDetectionActivity.this,  BirdInfoActivity.class);
-                startActivity(intent);
-                finish();
             }
-        }, 7000);
+        }, 2000);
     }
 
 //    //Método para reproduzir a gravação feita
@@ -228,30 +228,28 @@ public class BirdDetectionActivity extends AppCompatActivity {
             jsonObj.put("Audio", audio.getAudio());
             jsonObj.put("Format", audio.getFormat());
 
-            System.out.println(jsonObj);
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-            String postUrl = "http://localhost:5000/detect";
+            System.out.println(postUrl);
 
-//            RequestQueue requestQueue = Volley.newRequestQueue(this);
-//
-//            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, jsonObj, new Response.Listener<JSONObject>(){
-//
-//                @Override
-//                public void onResponse(JSONObject response){
-//
-//                    System.out.println(response);
-//                }
-//            }, new Response.ErrorListener(){
-//
-//                @Override
-//                public void onErrorResponse(VolleyError error){
-//
-//                    error.printStackTrace();
-//                }
-//            });
-//
-//            requestQueue.add(jsonObjectRequest);
-//
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, jsonObj, new Response.Listener<JSONObject>(){
+
+                @Override
+                public void onResponse(JSONObject response){
+
+                    System.out.println(response);
+                }
+            }, new Response.ErrorListener(){
+
+                @Override
+                public void onErrorResponse(VolleyError error){
+
+                    error.printStackTrace();
+                }
+            });
+
+            requestQueue.add(jsonObjectRequest);
+
         }   catch (JSONException je){
 
             je.printStackTrace();
@@ -315,9 +313,21 @@ public class BirdDetectionActivity extends AppCompatActivity {
 
     public void uploadFile(){
 
+    }
 
+    public void openDialog(){
 
+        Dialog dialog = new Dialog();
+
+        dialog.show(getSupportFragmentManager(), "example dialog");
     }
 
 
+    @Override
+    public String applyText(String ip, String porta) {
+
+        postUrl = "http://" + ip + ":" + porta + "/detect";
+
+        return postUrl;
+    }
 }

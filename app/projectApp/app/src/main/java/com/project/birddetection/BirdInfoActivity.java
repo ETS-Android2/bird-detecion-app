@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ComponentActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,20 +24,31 @@ import org.json.JSONObject;
 
 public class BirdInfoActivity extends AppCompatActivity {
 
+    String getUrl;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
         ImageView birdView = findViewById(R.id.birdImageView);
+
+        String value;
+
+        Bundle bundle = getIntent().getExtras();
+
+        value = bundle.getString("chave");
+
+        getUrl = defineUrl(value);
+
+        System.out.println("valor vindo da outra intent: "+getUrl);
+
         getBird();
 
     }
 
     private void getBird() {
-
-        //String getUrl = "http://localhost:5000/detect";
-        String getUrl = "http://192.168.0.113:5500/Trabalho1/JSONTesting.json";
 
         TextView specie = findViewById(R.id.infoTextView);
         ImageView birdView = findViewById(R.id.birdImageView);
@@ -77,6 +89,13 @@ public class BirdInfoActivity extends AppCompatActivity {
         Intent intent = new Intent(BirdInfoActivity.this,  BirdDetectionActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    public String defineUrl (String value){
+
+        String end = value;
+
+        return end;
     }
 
 }
