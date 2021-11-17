@@ -68,5 +68,5 @@ def detect():
     especie_identificada = species[index]
 
     return {"species": especie_identificada, "image": getImageUrl(especie_identificada)}
-
-app.run()
+#app.run()
+app.run(host='0.0.0.0', port='5000')
