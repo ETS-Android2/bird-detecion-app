@@ -46,7 +46,7 @@ cd projectApp
 
 cd apk
 
-Basta isntalar o apk em um dispotivo android com a versão so sistema 8.0.1 ou superior
+Basta instalar o apk em um dispotivo android com a versão do sistema 8.0.1 ou superior.
 ```
 <hr> 
 
