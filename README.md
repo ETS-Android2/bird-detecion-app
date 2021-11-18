@@ -75,14 +75,14 @@ Basta instalar o apk em um dispotivo android com a versão do sistema 8.0.1 ou s
 - [ ] Get de informações sobre a espécie
 <hr>  
 
-## Desenvolvimento
-### Dados
-#### Xeno-canto
+# Desenvolvimento :computer:
+## Dados
+### Xeno-canto
 Usamos um script python para a aquisição das gravações dos pássaros, através da [API disponível no site](https://www.xeno-canto.org/explore/api).
 Filtramos apenas pássaros do Brasil
 
-#### Análise
-##### Licença
+### Análise
+#### Licença
 Licenças Creative Commons
 ```python
 df['lic'].value_counts()
@@ -97,7 +97,7 @@ df['lic'].value_counts()
 //creativecommons.org/licenses/by-nc/4.0/           1
 ```
 
-##### Qualidade
+#### Qualidade
 Observamos que haviam muitos áudios de grande duração, e que portanto não são tão relevantes tendo em vista a abordagem utilizada para tratativa das gravações. (próxima sessão).
 ```python
 # Distribuição do tamanho dos áudios
@@ -151,7 +151,7 @@ O filtro aplicado foi:
 
 Em um script python, realizamos o download dos áudios, dos registros filtrados.
 
-#### IA
+### IA
 Ainda em questão de filtro, observamos que algumas espécies continham mais áudios que outras, o que poderia gerar um certo bias.
 Distribuição de quantidade de áudio por espécie:
 ![Distribuição de quantidade de áudio por espécie](https://user-images.githubusercontent.com/48332376/142470705-34517aee-8ed5-4031-acbc-3879636bab16.png)
@@ -162,7 +162,7 @@ Portanto, mais um filtro que decidimos fazer foi pela quantidade de áudios disp
 data.groupby('label').filter(lambda group: len(group) >= 5 and len(group) <= 20)
 ```
 
-### Treino
+## Treino
 A maneira que escolhemos para categorizar e representar as gravações, e treinar a IA foi o uso de extração de features de um áudio.
 Usamos a biblioteca *librosa*, que possui funções utilitárias que ajudam nessa tarefa:
 ```python
@@ -194,7 +194,7 @@ for e in mfcc:
 # ...
 ```
 
-### Modelo Utilizado
+## Modelo Utilizado
 Layers:
 ```python
 model = Sequential()
@@ -211,6 +211,7 @@ model.add(layers.Dense(len(species), activation='softmax'))
 Durante desenvolvimento e testes, percebemos um overfit, com alta acurácia no treino, mas baixa acurácia nos testes.
 Uma possível solução que encontramos foi a adição de Dropout nas layer, de forma a reduzir este comportamento.
 Percebemos uma sutil melhora na acurácia, mas mesmo assim, ficou próxima a 8%.
+
 ![Performance graph](https://user-images.githubusercontent.com/48332376/142472224-8440ea84-9aed-4857-b57f-6c10775f639a.png)
 ![Final accuracy](https://user-images.githubusercontent.com/48332376/142472238-17ccd895-60e3-4732-8172-06bf36252d53.png)
 
