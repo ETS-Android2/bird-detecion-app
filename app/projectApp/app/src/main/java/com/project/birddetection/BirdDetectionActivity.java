@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
@@ -50,7 +49,7 @@ public class BirdDetectionActivity extends AppCompatActivity implements Dialog.d
     TimerTask timerTask;
     Double time = 0.0;
     MediaRecorder mediaRecorder;
-    MediaPlayer mediaPlayer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,24 +119,6 @@ public class BirdDetectionActivity extends AppCompatActivity implements Dialog.d
 
         }
 
-//    //Método para reproduzir a gravação feita
-//    public void playPressed(View v){
-//
-//        try {
-//
-//            mediaPlayer = new MediaPlayer();
-//            mediaPlayer.setDataSource(recordedFilePath());
-//            mediaPlayer.prepare();
-//            mediaPlayer.start();
-//
-//            Toast.makeText(this, "Reproduzindo gravação", Toast.LENGTH_SHORT).show();
-//
-//        } catch (IOException e) {
-//
-//            e.printStackTrace();
-//        }
-//    }
-
     //Método para verificar se o microphone esta ativo
     private boolean isMicrophonePresent(){
         //Verifica se o sistema possui microfone
@@ -195,13 +176,11 @@ public class BirdDetectionActivity extends AppCompatActivity implements Dialog.d
         return Base64.getEncoder().encodeToString(baos.toByteArray());
     }
 
+    //Método para mandar o base 64 gerado pela função acima e receber informações do pássaro
     public void postJson(View v) throws IOException {
+
         String value =  recordedFilePath();
-
         String ended = getBytes(new File(value));
-
-        //Log.v("Base64 gerado:" ,ended);
-
         try {
 
             Audio audio = new Audio();
@@ -216,8 +195,6 @@ public class BirdDetectionActivity extends AppCompatActivity implements Dialog.d
 
             RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-            System.out.println("URL post:" + postUrl);
-
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, jsonObj, new Response.Listener<JSONObject>(){
 
                 @Override
@@ -228,19 +205,13 @@ public class BirdDetectionActivity extends AppCompatActivity implements Dialog.d
                       String imageUrl = response.getString("image");
                       String specie = response.getString("species");
 
-                      Handler handler = new Handler();
-                      handler.postDelayed(new Runnable() {
-                          @Override
-                          public void run() {
-
-                              Intent intent = new Intent(BirdDetectionActivity.this, BirdInfoActivity.class);
-                              intent.putExtra("specie", specie);
-                              intent.putExtra("image", imageUrl);
-                              startActivity(intent);
-                              finish();
-                          }
-                      }, 3000);
-
+                      //Método para passar as informações obtidas do server para a próxima tela com delay de 3 seg para mudar de tela
+                      Intent intent = new Intent(BirdDetectionActivity.this, BirdInfoActivity.class);
+                      intent.putExtra("specie", specie);
+                      intent.putExtra("image", imageUrl);
+                      resetTimer(v);
+                      startActivity(intent);
+                      finish();
                     } catch (JSONException jsonException) {
 
                         jsonException.printStackTrace();
@@ -260,10 +231,10 @@ public class BirdDetectionActivity extends AppCompatActivity implements Dialog.d
         }   catch (JSONException je){
 
             je.printStackTrace();
-
         }
     }
 
+    //Método para iniciar o timer
     public void startTimer(View v){
 
         timerTask = new TimerTask() {
@@ -284,6 +255,7 @@ public class BirdDetectionActivity extends AppCompatActivity implements Dialog.d
         timer.scheduleAtFixedRate(timerTask, 0, 1000);
     }
 
+    //Método para pegar os segundos e mintos
     public String getTimerText(){
 
         int rounded = (int) Math.round(time);
@@ -295,31 +267,35 @@ public class BirdDetectionActivity extends AppCompatActivity implements Dialog.d
         return formatTime(sec, min);
     }
 
+    //Método para formatar os segundos
     public String formatTime(int sec, int min){
 
         return String.format("%02d",min) + " : " + String.format("%02d",sec);
     }
 
+    //Método para prar o timer
     public void stopTimer(View view)
     {
 
         timerTask.cancel();
     }
 
+    //Método para resetar o tiemr
     public void resetTimer(View v){
 
         time = 0.0;
         timerText.setText(formatTime(0,0));
     }
 
+    //Método para abrir a tela de informações do projeto
     public void projectInfo(View v){
-
 
         Intent intent = new Intent(this,  ProjectInfoActivity.class);
         startActivity(intent);
         finish();
     }
 
+    //Método para abrir a caixa de dialogo para pedir o IP e Porta
     public void openDialog(){
 
         Dialog dialog = new Dialog();
@@ -327,7 +303,7 @@ public class BirdDetectionActivity extends AppCompatActivity implements Dialog.d
         dialog.show(getSupportFragmentManager(), "example dialog");
     }
 
-
+    //Método para aplicar oque foi digitado na caixa de dialogo em variaveis locais
     @Override
     public String applyText(String ip, String porta) {
 

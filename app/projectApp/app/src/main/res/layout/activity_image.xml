@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?> <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -19,13 +20,14 @@
 
     <ImageView
         android:id="@+id/birdImageView"
-        android:layout_width="284dp"
-        android:layout_height="273dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="313dp"
+        android:layout_height="281dp"
+        app:layout_constraintBottom_toTopOf="@+id/shareButton"
+        app:layout_constraintEnd_toEndOf="@+id/imageView2"
+        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintStart_toStartOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/infoTextView"
+        app:layout_constraintVertical_bias="0.428"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
@@ -38,43 +40,29 @@
         android:text="Espécie"
         android:textColor="#000000"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.455"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.222" />
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="@+id/imageView2"
+        app:layout_constraintHorizontal_bias="0.625"
+        app:layout_constraintStart_toStartOf="@+id/imageView2"
+        app:layout_constraintTop_toTopOf="@+id/imageView2"
+        app:layout_constraintVertical_bias="0.053" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/shareButton"
         android:layout_width="221dp"
         android:layout_height="51dp"
         android:background="@drawable/background_aqua_green"
+        android:fontFamily="sans-serif-medium"
+        android:onClick="share"
         android:text="Compartilhar"
         android:textAllCaps="false"
         android:textColor="#000000"
         android:textSize="20sp"
-        android:fontFamily="sans-serif-medium"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.342"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.773" />
-
-    <ImageButton
-        android:id="@+id/imageButton2"
-        android:layout_width="59dp"
-        android:layout_height="55dp"
-        android:background="@drawable/background_aqua_green"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.863"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.778"
-        app:srcCompat="@drawable/ic_baseline_info_24"
-        tools:ignore="SpeakableTextPresentCheck" />
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="@+id/imageView2"
+        app:layout_constraintStart_toStartOf="@+id/imageView2"
+        app:layout_constraintTop_toTopOf="@+id/imageView2"
+        app:layout_constraintVertical_bias="0.936" />
 
     <ImageButton
         android:id="@+id/backButton"

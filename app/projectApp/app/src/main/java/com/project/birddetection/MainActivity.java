@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
         handler.postDelayed(new Runnable() {
             @Override
+            //Método para fazer com que a tela inicial dure por 3 segundos e depois mude para tela principal
             public void run() {
 
                 Intent intent = new Intent(MainActivity.this,  BirdDetectionActivity.class);

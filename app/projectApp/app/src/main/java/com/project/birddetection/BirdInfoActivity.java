@@ -24,6 +24,8 @@ import org.json.JSONObject;
 
 public class BirdInfoActivity extends AppCompatActivity {
 
+    String aux;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -36,17 +38,18 @@ public class BirdInfoActivity extends AppCompatActivity {
         Bundle bundleImage = getIntent().getExtras();
         Bundle bundleText = getIntent().getExtras();
 
+        //Recebe informações vindas da tela anterior
         String imageUrl = bundleImage.getString("image");
         String specie = bundleText.getString("specie");
 
-        System.out.println("Url vinda da main:" + imageUrl + " Especie vinda da main:" + specie);
+        aux = specie;
 
         specieTv.setText(specie);
-
+        //Coloca automaticamente a imagem da url
         Picasso.get().load(imageUrl).into(birdView);
     }
 
-
+    //Método para retornar para a detecção
     public void returnDetection(View v){
 
         Intent intent = new Intent(this,  BirdDetectionActivity.class);
@@ -54,4 +57,16 @@ public class BirdInfoActivity extends AppCompatActivity {
         finish();
     }
 
+    //Método para compartilhar o resultado obtido
+    public void share(View v){
+
+        Intent intent  = new Intent(Intent.ACTION_SEND);
+
+        intent.setType("text/plain");
+        String body = "body";
+        String sub = "Hey olha que legal, consegui identificar um " + aux + " utilizando o app BirdSpot, caso queira saber mais sobre o projeto entre em: https://shortest.link/1PQc !";
+        intent.putExtra(intent.EXTRA_TEXT, body);
+        intent.putExtra(intent.EXTRA_TEXT, sub);
+        startActivity(intent.createChooser(intent, "Compartilhar"));
+    }
 }

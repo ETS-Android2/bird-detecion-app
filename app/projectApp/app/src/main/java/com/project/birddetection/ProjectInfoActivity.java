@@ -16,6 +16,7 @@ public class ProjectInfoActivity extends AppCompatActivity {
         setContentView(R.layout.project_info);
     }
 
+    //Método para voltar para a tela de detecção
     public void back(View v){
 
         Intent intent = new Intent(this,  BirdDetectionActivity.class);
