@@ -149,6 +149,72 @@ O filtro aplicado foi:
 1. Áudios com **até 10 segundos**;
 2. Áudios com **nenhum** outro pássaro identificado em background;
 
+Em um script python, realizamos o download dos áudios, dos registros filtrados.
+
+#### IA
+Ainda em questão de filtro, observamos que algumas espécies continham mais áudios que outras, o que poderia gerar um certo bias.
+Distribuição de quantidade de áudio por espécie:
+![Distribuição de quantidade de áudio por espécie](https://user-images.githubusercontent.com/48332376/142470705-34517aee-8ed5-4031-acbc-3879636bab16.png)
+
+Portanto, mais um filtro que decidimos fazer foi pela quantidade de áudios disponíveis:
+```python
+# Filtro de espécies com quantidade de áudios >= 5 e <=20
+data.groupby('label').filter(lambda group: len(group) >= 5 and len(group) <= 20)
+```
+
+### Treino
+A maneira que escolhemos para categorizar e representar as gravações, e treinar a IA foi o uso de extração de features de um áudio.
+Usamos a biblioteca *librosa*, que possui funções utilitárias que ajudam nessa tarefa:
+```python
+# ...
+
+y, sr = librosa.load(birdname, mono=True)
+
+# ...
+
+rms = librosa.feature.rms(y=y)
+chroma_stft = librosa.feature.chroma_stft(y=y, sr=sr)
+spec_cent = librosa.feature.spectral_centroid(y=y, sr=sr)
+spec_bw = librosa.feature.spectral_bandwidth(y=y, sr=sr)
+rolloff = librosa.feature.spectral_rolloff(y=y, sr=sr)
+zcr = librosa.feature.zero_crossing_rate(y)
+mfcc = librosa.feature.mfcc(y=y, sr=sr)
+
+# ...
+```
+
+Por conta de nossos áudios serem relativamente curtos, decidimos tirar a média das features no decorrer do áudio, chegando a um único valor representando aquela feature:
+```python
+# ...
+
+to_append = f'{filename} {np.mean(chroma_stft)} {np.mean(rms)} {np.mean(spec_cent)} {np.mean(spec_bw)} {np.mean(rolloff)} {np.mean(zcr)}'    
+for e in mfcc:
+    to_append += f' {np.mean(e)}'
+    
+# ...
+```
+
+### Modelo Utilizado
+Layers:
+```python
+model = Sequential()
+model.add(layers.Dense(4096, activation='relu', input_shape=(X_train.shape[1],)))
+model.add(layers.Dropout(rate=0.5))
+model.add(layers.Dense(2048, activation='relu'))
+model.add(layers.Dropout(rate=0.5))
+model.add(layers.Dense(1024, activation='relu'))
+model.add(layers.Dropout(rate=0.5))
+model.add(layers.Dense(512, activation='relu'))
+model.add(layers.Dense(256, activation='relu'))
+model.add(layers.Dense(len(species), activation='softmax'))
+```
+Durante desenvolvimento e testes, percebemos um overfit, com alta acurácia no treino, mas baixa acurácia nos testes.
+Uma possível solução que encontramos foi a adição de Dropout nas layer, de forma a reduzir este comportamento.
+Percebemos uma sutil melhora na acurácia, mas mesmo assim, ficou próxima a 8%.
+![Performance graph](https://user-images.githubusercontent.com/48332376/142472224-8440ea84-9aed-4857-b57f-6c10775f639a.png)
+![Final accuracy](https://user-images.githubusercontent.com/48332376/142472238-17ccd895-60e3-4732-8172-06bf36252d53.png)
+
+
 ## Autores
 [Gustavo Lucas da Rosa](https://github.com/guslucas) <br>
 [Bruno Lemos Haddad](https://github.com/Bhaddad10)
