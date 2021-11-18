@@ -73,7 +73,7 @@ Executar em um dispotivo android 8.0.1 ou superior
 - [X] Encoding do áudio em base64
 - [X] Post do base 64 para o webserver
 - [X] Get da imagem do pássaro junto da espécie
-- [X] Get de informações sobre a espécie
+- [ ] Get de informações sobre a espécie
 <hr>  
 
 ## Autores
