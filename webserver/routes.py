@@ -110,7 +110,8 @@ def detect():
     #print(to_append)
 
     result = pd.read_csv(StringIO(to_append), sep=' ', header=None)
-    result = result.drop(result.columns[0],axis=1)
+    #result = result.drop(result.columns[0],axis=1)
+    result = result.iloc[:, :-1]
     
     scaled_data = scale_data(result)
     index = np.argmax(recognizer.predict(np.expand_dims(scaled_data, axis=0)))
