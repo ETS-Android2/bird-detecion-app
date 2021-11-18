@@ -86,7 +86,7 @@ public class BirdInfoActivity extends AppCompatActivity {
 
     public void returnDetection(View v){
 
-        Intent intent = new Intent(BirdInfoActivity.this,  BirdDetectionActivity.class);
+        Intent intent = new Intent(this,  BirdDetectionActivity.class);
         startActivity(intent);
         finish();
     }

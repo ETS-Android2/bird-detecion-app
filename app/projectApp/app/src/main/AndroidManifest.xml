@@ -17,6 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity"
+            android:screenOrientation="portrait"
             tools:ignore="IntentFilterExportedReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,9 +25,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BirdInfoActivity"></activity>
-        <activity android:name=".BirdDetectionActivity"></activity>
-        <activity android:name=".ProjectInfoActivity"></activity>
+        <activity android:name=".BirdInfoActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".BirdDetectionActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ProjectInfoActivity"
+            android:screenOrientation="portrait"/>
 
     </application>
 

@@ -117,6 +117,7 @@ public class BirdDetectionActivity extends AppCompatActivity implements Dialog.d
             public void run() {
 
                 resetTimer(v);
+
                 try {
 
                     postJson(v);
@@ -125,13 +126,15 @@ public class BirdDetectionActivity extends AppCompatActivity implements Dialog.d
                     intent.putExtra("chave", postUrl);
                     startActivity(intent);
 
+                    finish();
+
                 } catch (IOException e) {
 
                     e.printStackTrace();
                 }
 
             }
-        }, 2000);
+        }, 3000);
     }
 
 //    //Método para reproduzir a gravação feita
@@ -273,6 +276,7 @@ public class BirdDetectionActivity extends AppCompatActivity implements Dialog.d
                 });
             }
         };
+
         timer.scheduleAtFixedRate(timerTask, 0, 1000);
     }
 
@@ -307,12 +311,9 @@ public class BirdDetectionActivity extends AppCompatActivity implements Dialog.d
     public void projectInfo(View v){
 
 
-        Intent intent = new Intent(BirdDetectionActivity.this,  ProjectInfoActivity.class);
+        Intent intent = new Intent(this,  ProjectInfoActivity.class);
         startActivity(intent);
-    }
-
-    public void uploadFile(){
-
+        finish();
     }
 
     public void openDialog(){
@@ -326,7 +327,7 @@ public class BirdDetectionActivity extends AppCompatActivity implements Dialog.d
     @Override
     public String applyText(String ip, String porta) {
 
-        postUrl = "http://" + ip + ":" + porta + "/detect";
+        postUrl = "http://" + ip + ":" + porta + "/Trabalho1/JSONTesting.json";
 
         return postUrl;
     }
