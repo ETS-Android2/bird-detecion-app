@@ -10,13 +10,13 @@ A partir disto, o aplicativo exibirá ao usuário a espécie identificada, e alg
 <hr>  
       
 ## Tecnologias utilizadas 
-##### :snake: Python
-##### :iphone: Android
+- :snake: Python
+- :iphone: Android
 
 ### Bibliotecas
-##### :lotion_bottle: Flask
-##### :musical_note: Librosa
-##### :brain: Tensorflow
+- :lotion_bottle: Flask
+- :musical_note: Librosa
+- :brain: Tensorflow
 
 <hr>  
 
