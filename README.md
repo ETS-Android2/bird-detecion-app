@@ -44,9 +44,9 @@ cd app
 
 cd projectApp
 
-Abrir a pasta pelo Android Studio ou outro compilador desejado
+cd apk
 
-Executar em um dispotivo android 8.0.1 ou superior
+Basta isntalar o apk em um dispotivo android com a versão so sistema 8.0.1 ou superior
 ```
 <hr> 
 
