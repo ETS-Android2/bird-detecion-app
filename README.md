@@ -12,6 +12,12 @@ A partir disto, o aplicativo exibirá ao usuário a espécie identificada, e alg
 ## Tecnologias utilizadas 
 ##### :snake: Python
 ##### :iphone: Android
+
+### Bibliotecas
+##### Flask :lotion_bottle:
+##### Librosa :musical_note:
+##### Tensorflow :brain:
+
 <hr>  
 
 ## Como executar o projeto
