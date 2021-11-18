@@ -54,8 +54,7 @@ Caso deseje executar o aplicativo no android studio, é necessario que o mesmo e
 Disponivel para download em : https://android-developers.googleblog.com/2021/05/android-studio-arctic-fox-beta.html
 
 cd apk
-
-Basta instalar o apk em um dispotivo android com a versão 8.0.1 ou superior.
+Caso deseje instalar o apk, basta instalar o apk em um dispotivo android com a versão 8.0.1 ou superior.
 ```
 <hr> 
 
