@@ -327,7 +327,7 @@ public class BirdDetectionActivity extends AppCompatActivity implements Dialog.d
     @Override
     public String applyText(String ip, String porta) {
 
-        postUrl = "http://" + ip + ":" + porta + "/Trabalho1/JSONTesting.json";
+        postUrl = "http://" + ip + ":" + porta + "/detect";
 
         return postUrl;
     }
