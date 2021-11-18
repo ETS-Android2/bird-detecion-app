@@ -57,24 +57,97 @@ Executar em um dispotivo android 8.0.1 ou superior
 - [X] Estudo dos dados
 - [X] Treino e salvamento
 - [X] Filtro dos dados de treino baseado em insights obtidos 
-- [ ] Acréscimo de novas classes
-- [ ] Redução de ruído do áudio
-- [ ] Implementar callback no fit
+- [X] Acréscimo de novas classes
+- [X] Redução de ruído do áudio
+- [X] Implementar callback no fit
 - [ ] Testes na inicialização (otimizadores)
 
 ### Webserver
 - [X] Execução da Rede Neural
 - [X] Decoding de áudio base64
-- [X] Uso de arquivo da requisição
+- [X] Input de arquivo da requisição + Scaler
 - [X] Retorno de URL de imagem da especie identificada
-- [ ] Melhoria salvamento arquivo
 
 ### App
 - [X] Encoding do áudio em base64
-- [X] Post do base 64 para o webserver
+- [X] Post do base64 para o webserver
 - [X] Get da imagem do pássaro junto da espécie
 - [ ] Get de informações sobre a espécie
 <hr>  
+
+## Desenvolvimento
+### Dados
+#### Xeno-canto
+Usamos um script python para a aquisição das gravações dos pássaros, através da [API disponível no site](https://www.xeno-canto.org/explore/api).
+Filtramos apenas pássaros do Brasil
+
+#### Análise
+##### Licença
+Licenças Creative Commons
+```python
+df['lic'].value_counts()
+#----
+//creativecommons.org/licenses/by-nc-sa/4.0/    32919
+//creativecommons.org/licenses/by-nc-nd/2.5/    11087
+//creativecommons.org/licenses/by-nc-sa/3.0/     9256
+//creativecommons.org/licenses/by-nc-nd/4.0/     4927
+//creativecommons.org/licenses/by-nc-nd/3.0/      158
+//creativecommons.org/licenses/by-sa/4.0/          25
+//creativecommons.org/licenses/by-sa/3.0/           2
+//creativecommons.org/licenses/by-nc/4.0/           1
+```
+
+##### Qualidade
+Observamos que haviam muitos áudios de grande duração, e que portanto não são tão relevantes tendo em vista a abordagem utilizada para tratativa das gravações. (próxima sessão).
+```python
+# Distribuição do tamanho dos áudios
+allAudios.groupby('length-cat').size()
+#----
+5s: 0-5             4379
+10s: 6-10           6462
+15s: 11-15          6277
+20: 16-20           6129
+30s: 21-30         10617
+01m: 31-60         16319
+02m: 61-120         6406
+05m: 121-300        1671
+Very long: >300      115
+```
+
+Também haviam vários categorizados com "outros pássaros", segundo a documentação da API:
+```python
+# Distribuição de quantidade de pássaros nos áudios
+allAudios.groupby(['alson']).size()
+#----
+alson
+0     41989
+1      7253
+2      3902
+3      2327
+4      1377
+5       689
+6       383
+7       203
+8        94
+9        66
+10       35
+11       24
+12       13
+13        3
+14        4
+15        3
+17        3
+18        1
+19        3
+24        1
+26        1
+27        1
+```
+
+Por estes motivos, decidimos filtrar o dataset baseado nessas informações.
+O filtro aplicado foi:
+1. Áudios com **até 10 segundos**;
+2. Áudios com **nenhum** outro pássaro identificado em background;
 
 ## Autores
 [Gustavo Lucas da Rosa](https://github.com/guslucas) <br>
