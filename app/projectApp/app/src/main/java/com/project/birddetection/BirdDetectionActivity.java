@@ -52,7 +52,6 @@ public class BirdDetectionActivity extends AppCompatActivity implements Dialog.d
     MediaRecorder mediaRecorder;
     MediaPlayer mediaPlayer;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getSupportActionBar().hide();
@@ -110,32 +109,16 @@ public class BirdDetectionActivity extends AppCompatActivity implements Dialog.d
         statusText.setText("Gravação interrompida, em instantes traremos o resultado!");
         System.out.println("Gravação interrompida");
 
-        Handler handler = new Handler();
+        try {
 
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
+            postJson(v);
 
-                resetTimer(v);
+            } catch (IOException e) {
 
-                try {
-
-                    postJson(v);
-
-                    Intent intent = new Intent(BirdDetectionActivity.this, BirdInfoActivity.class);
-                    intent.putExtra("chave", postUrl);
-                    startActivity(intent);
-
-                    finish();
-
-                } catch (IOException e) {
-
-                    e.printStackTrace();
-                }
-
+                e.printStackTrace();
             }
-        }, 3000);
-    }
+
+        }
 
 //    //Método para reproduzir a gravação feita
 //    public void playPressed(View v){
@@ -233,14 +216,35 @@ public class BirdDetectionActivity extends AppCompatActivity implements Dialog.d
 
             RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-            System.out.println(postUrl);
+            System.out.println("URL post:" + postUrl);
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, jsonObj, new Response.Listener<JSONObject>(){
 
                 @Override
                 public void onResponse(JSONObject response){
 
-                    System.out.println(response);
+                    try {
+
+                      String imageUrl = response.getString("image");
+                      String specie = response.getString("species");
+
+                      Handler handler = new Handler();
+                      handler.postDelayed(new Runnable() {
+                          @Override
+                          public void run() {
+
+                              Intent intent = new Intent(BirdDetectionActivity.this, BirdInfoActivity.class);
+                              intent.putExtra("specie", specie);
+                              intent.putExtra("image", imageUrl);
+                              startActivity(intent);
+                              finish();
+                          }
+                      }, 3000);
+
+                    } catch (JSONException jsonException) {
+
+                        jsonException.printStackTrace();
+                    }
                 }
             }, new Response.ErrorListener(){
 
@@ -328,6 +332,7 @@ public class BirdDetectionActivity extends AppCompatActivity implements Dialog.d
     public String applyText(String ip, String porta) {
 
         postUrl = "http://" + ip + ":" + porta + "/detect";
+        //postUrl = "https://mockbin.org/bin/af8baf33-9139-4d90-a9f0-aebe5f094c68";
 
         return postUrl;
     }

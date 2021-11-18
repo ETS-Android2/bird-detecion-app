@@ -24,8 +24,6 @@ import org.json.JSONObject;
 
 public class BirdInfoActivity extends AppCompatActivity {
 
-    String getUrl;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -33,69 +31,27 @@ public class BirdInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
         ImageView birdView = findViewById(R.id.birdImageView);
+        TextView specieTv = findViewById(R.id.infoTextView);
 
-        String value;
+        Bundle bundleImage = getIntent().getExtras();
+        Bundle bundleText = getIntent().getExtras();
 
-        Bundle bundle = getIntent().getExtras();
+        String imageUrl = bundleImage.getString("image");
+        String specie = bundleText.getString("specie");
 
-        value = bundle.getString("chave");
+        System.out.println("Url vinda da main:" + imageUrl + " Especie vinda da main:" + specie);
 
-        getUrl = defineUrl(value);
+        specieTv.setText(specie);
 
-        System.out.println("valor vindo da outra intent: "+getUrl);
-
-        getBird();
-
+        Picasso.get().load(imageUrl).into(birdView);
     }
 
-    private void getBird() {
-
-        TextView specie = findViewById(R.id.infoTextView);
-        ImageView birdView = findViewById(R.id.birdImageView);
-
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, getUrl, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                        try {
-
-                           String imageUrl = response.getString("image");
-                           specie.setText(response.getString("species"));
-
-                           Picasso.get().load(imageUrl).into(birdView);
-                        } catch (JSONException jsonException) {
-
-                            jsonException.printStackTrace();
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                error.printStackTrace();
-            }
-        });
-
-        requestQueue.add(jsonObjectRequest);
-
-    }
 
     public void returnDetection(View v){
 
         Intent intent = new Intent(this,  BirdDetectionActivity.class);
         startActivity(intent);
         finish();
-    }
-
-    public String defineUrl (String value){
-
-        String end = value;
-
-        return end;
     }
 
 }
