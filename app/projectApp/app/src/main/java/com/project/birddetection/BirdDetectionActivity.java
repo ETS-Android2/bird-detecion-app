@@ -11,11 +11,13 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -205,15 +207,28 @@ public class BirdDetectionActivity extends AppCompatActivity implements Dialog.d
                       String imageUrl = response.getString("image");
                       String specie = response.getString("species");
 
-                      //Método para passar as informações obtidas do server para a próxima tela com delay de 3 seg para mudar de tela
-                      Intent intent = new Intent(BirdDetectionActivity.this, BirdInfoActivity.class);
-                      intent.putExtra("specie", specie);
-                      intent.putExtra("image", imageUrl);
-                      resetTimer(v);
-                      startActivity(intent);
-                      finish();
+                      Handler handler = new Handler();
+
+                      handler.postDelayed(new Runnable() {
+
+                          //Método para passar as informações obtidas do server para a próxima tela com delay de 3 seg para mudar de tela
+                          @Override
+                          public void run() {
+
+                              Intent intent = new Intent(BirdDetectionActivity.this, BirdInfoActivity.class);
+                              intent.putExtra("specie", specie);
+                              intent.putExtra("image", imageUrl);
+                              resetTimer(v);
+                              startActivity(intent);
+                              finish();
+                          }
+                      }, 3000);
+
                     } catch (JSONException jsonException) {
 
+                        String text = "Erro no json";
+                        Toast toast = Toast.makeText(BirdDetectionActivity.this, text, Toast.LENGTH_LONG);
+                        toast.show();
                         jsonException.printStackTrace();
                     }
                 }
@@ -222,10 +237,13 @@ public class BirdDetectionActivity extends AppCompatActivity implements Dialog.d
                 @Override
                 public void onErrorResponse(VolleyError error){
 
+                    String text = "Erro no volley";
+                    Toast.makeText(BirdDetectionActivity.this, error.toString(), Toast.LENGTH_LONG).show();
                     error.printStackTrace();
                 }
             });
 
+            jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             requestQueue.add(jsonObjectRequest);
 
         }   catch (JSONException je){
