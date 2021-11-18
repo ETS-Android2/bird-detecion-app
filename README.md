@@ -50,9 +50,12 @@ cd app
 
 cd projectApp
 
+Caso deseje executar o aplicativo no android studio, é necessario que o mesmo esteja na versão artic fox
+Disponivel para download em : https://android-developers.googleblog.com/2021/05/android-studio-arctic-fox-beta.html
+
 cd apk
 
-Basta instalar o apk em um dispotivo android com a versão do sistema 8.0.1 ou superior.
+Basta instalar o apk em um dispotivo android com a versão 8.0.1 ou superior.
 ```
 <hr> 
 
