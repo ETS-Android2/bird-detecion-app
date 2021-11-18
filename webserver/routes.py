@@ -20,12 +20,17 @@ import IPython.display as ipd
 #import warnings
 #warnings.filterwarnings('ignore')
 
+import sys
+
 from simple_image_download import simple_image_download as simp
 
 downloader = simp.simple_image_download
 
-#option = 'all'
 option = 'specific'
+if (len(sys.argv) > 1):
+    option = 'all' if sys.argv[1] == 'all' else 'specific'
+print(f"Using '{option}' option.")
+
 species = None
 recognizer = None
 means = None
