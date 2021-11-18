@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ComponentActivity;
@@ -44,9 +45,18 @@ public class BirdInfoActivity extends AppCompatActivity {
 
         aux = specie;
 
-        specieTv.setText(specie);
-        //Coloca automaticamente a imagem da url
-        Picasso.get().load(imageUrl).into(birdView);
+        if(aux.equals("None")){
+
+            specieTv.setText("Ops!");
+            birdView.setImageResource(R.drawable.erroimg);
+            Toast.makeText(BirdInfoActivity.this, "Ops, parece que tivemos um problema, tente novamente mais tarde", Toast.LENGTH_LONG).show();
+        }
+        else{
+
+            specieTv.setText(specie);
+            //Coloca automaticamente a imagem da url
+            Picasso.get().load(imageUrl).into(birdView);
+        }
     }
 
     //Método para retornar para a detecção

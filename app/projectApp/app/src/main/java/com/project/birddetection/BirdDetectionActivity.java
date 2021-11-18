@@ -226,9 +226,6 @@ public class BirdDetectionActivity extends AppCompatActivity implements Dialog.d
 
                     } catch (JSONException jsonException) {
 
-                        String text = "Erro no json";
-                        Toast toast = Toast.makeText(BirdDetectionActivity.this, text, Toast.LENGTH_LONG);
-                        toast.show();
                         jsonException.printStackTrace();
                     }
                 }
@@ -237,8 +234,7 @@ public class BirdDetectionActivity extends AppCompatActivity implements Dialog.d
                 @Override
                 public void onErrorResponse(VolleyError error){
 
-                    String text = "Erro no volley";
-                    Toast.makeText(BirdDetectionActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(BirdDetectionActivity.this, "Ops, parece que tivemos um problema, tente novamente mais tarde", Toast.LENGTH_LONG).show();
                     error.printStackTrace();
                 }
             });
@@ -325,8 +321,8 @@ public class BirdDetectionActivity extends AppCompatActivity implements Dialog.d
     @Override
     public String applyText(String ip, String porta) {
 
-        postUrl = "http://" + ip + ":" + porta + "/detect";
-        //postUrl = "https://mockbin.org/bin/af8baf33-9139-4d90-a9f0-aebe5f094c68";
+       //postUrl = "http://" + ip + ":" + porta + "/detect";
+        postUrl = "https://mockbin.org/bin/af8baf33-9139-4d90-a9f0-aebe5f094c68";
 
         return postUrl;
     }
