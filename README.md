@@ -68,7 +68,9 @@ Caso deseje instalar o apk, basta instalar o apk em um dispotivo android com a v
 - [X] Acréscimo de novas classes
 - [X] Redução de ruído do áudio
 - [X] Implementar callback no fit
-- [ ] Testes na inicialização (otimizadores)
+- [X] Testes em geral para Performance
+- [X] Implementar Dropout
+- [ ] Testes com otimizadores
 
 ### Webserver
 - [X] Execução da Rede Neural
@@ -79,8 +81,10 @@ Caso deseje instalar o apk, basta instalar o apk em um dispotivo android com a v
 ### App
 - [X] Encoding do áudio em base64
 - [X] Post do base64 para o webserver
-- [X] Get da imagem do pássaro junto da espécie
+- [X] Exibir imagem de exemplo da espécie
+- [X] Tratativa de erros
 - [ ] Get de informações sobre a espécie
+
 <hr>  
 
 # Desenvolvimento :computer:
